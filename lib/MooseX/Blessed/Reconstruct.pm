@@ -10,12 +10,20 @@ use namespace::clean -except => 'meta';
 
 extends qw(Data::Visitor);
 
+has load_classes => (
+	isa => "Bool",
+	is  => "rw",
+	default => 1,
+);
+
 sub visit_object {
 	my ( $v, $obj ) = @_;
 
 	my $class = ref $obj;
 
-	my $meta = Class::MOP::load_class($class);
+	my $meta = $self->load_classes
+		? Class::MOP::load_class($class)
+		: Class::MOP::get_metaclass_by_name($class);
 
 	if ( ref $meta ) {
 		return $v->visit_object_with_meta($obj, $meta);
