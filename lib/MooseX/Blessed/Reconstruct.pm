@@ -3,7 +3,7 @@
 package MooseX::Blessed::Reconstruct;
 use Moose;
 
-use Class::MOP;# 0.66; # well behaved load_class()
+use Class::MOP 0.66; # well behaved load_class()
 use Data::Visitor 0.21; # n-arity visit
 
 use namespace::clean -except => 'meta';
@@ -21,7 +21,7 @@ sub visit_object {
 
 	my $class = ref $obj;
 
-	my $meta = $self->load_classes
+	my $meta = $v->load_classes
 		? Class::MOP::load_class($class)
 		: Class::MOP::get_metaclass_by_name($class);
 
