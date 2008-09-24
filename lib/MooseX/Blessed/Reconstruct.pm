@@ -8,6 +8,8 @@ use Data::Visitor 0.21; # n-arity visit
 
 use namespace::clean -except => 'meta';
 
+our $VERSION = "0.01";
+
 extends qw(Data::Visitor);
 
 has load_classes => (
