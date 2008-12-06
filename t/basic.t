@@ -37,9 +37,10 @@ use ok 'MooseX::Blessed::Reconstruct';
 {
 	{
 		package A::Nonmoose::Class; # not to be confused with an anonymous class!
-		use base qw(Class::Accessor);
 
-		__PACKAGE__->mk_accessors(qw(name));
+		sub new { bless $_[1], $_[0] }
+
+		sub name { $_[0]{name} }
 
 		package A::Moose::Class;
 		use Moose;
