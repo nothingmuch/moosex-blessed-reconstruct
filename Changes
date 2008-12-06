@@ -1,0 +1,6 @@
+0.02
+	- Remove Class::Accessor from test suite (not having it as a dependency
+	  caused failures)
+
+0.01
+	- Initial release
