@@ -3,8 +3,12 @@
 package MooseX::Blessed::Reconstruct;
 use Moose;
 
+use Carp qw(croak);
+
 use Class::MOP 0.66; # well behaved load_class()
 use Data::Visitor 0.21; # n-arity visit
+
+use Scalar::Util qw(reftype);
 
 use namespace::clean -except => 'meta';
 
@@ -41,7 +45,7 @@ sub visit_object_with_meta {
 
 	$v->_register_mapping( $obj => $instance );
 
-	my $args = $v->prepare_args( $obj );
+	my $args = $v->prepare_args( $meta, $obj );
 
 	$meta->new_object( %$args, __INSTANCE__ => $instance );
 
@@ -51,12 +55,23 @@ sub visit_object_with_meta {
 }
 
 sub prepare_args {
-	my ( $v, $obj ) = @_;
+	my ( $v, $meta, $obj ) = @_;
 
-	my %args;
-	@args{keys %$obj} = $v->visit(values %$obj);
+    my @args;
 
-	return \%args;
+    if ( reftype $obj eq 'HASH' ) {
+        @args = %$obj;
+    } elsif ( reftype $obj eq 'ARRAY' ) {
+        @args = @$obj;
+    } elsif ( reftype $obj eq 'SCALAR' ) {
+        @args = $$obj;
+    } else {
+        croak "unknown ref type $obj";
+    }
+
+    my @processed = $v->visit(@args);
+
+    return $meta->name->BUILDARGS(@processed);
 }
 
 __PACKAGE__->meta->make_immutable;
