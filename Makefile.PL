@@ -13,8 +13,8 @@ WriteMakefile(
 	PREREQ_PM    => {
 		'Test::use::ok' => 0,
 		'namespace::clean' => 0,
-		'Moose' => 0,
-		'Class::MOP' => 0.66,
+		'Moose' => 0.90,
+		'Class::MOP' => 0.93,
 		'Data::Visitor' => 0.21,
 	},
 );

@@ -27,9 +27,9 @@ sub visit_object {
 
 	my $class = ref $obj;
 
-	my $meta = $v->load_classes
-		? Class::MOP::load_class($class)
-		: Class::MOP::get_metaclass_by_name($class);
+	Class::MOP::load_class($class) if $v->load_classes;
+
+	my $meta = Class::MOP::get_metaclass_by_name($class);
 
 	if ( ref $meta ) {
 		return $v->visit_object_with_meta($obj, $meta);

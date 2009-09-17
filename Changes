@@ -1,3 +1,6 @@
+0.03
+    - Class::MOP no longer returns the metaclass from load_class
+
 0.02
 	- Remove Class::Accessor from test suite (not having it as a dependency
 	  caused failures)
