@@ -15,6 +15,7 @@ WriteMakefile(
 		'namespace::clean' => 0,
 		'Moose' => 1.05,
 		'Class::MOP' => 0.93,
+        'Class::Load' => 0,
 		'Data::Visitor' => 0.21,
 	},
 );
